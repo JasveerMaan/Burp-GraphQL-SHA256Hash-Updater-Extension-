@@ -1,31 +1,29 @@
 # Burp Suite Extension: GraphQL sha256Hash Auto-Updater
 
-This Burp Suite extension automatically recalculates and updates the sha256Hash parameter in GraphQL API requests when the query is modified in Burp Suite. It is designed for APIs that use persisted queries (such as Apollo Persisted Queries) and require a SHA-256 hash of the query string for validation
+This Burp Suite extension automatically recalculates and updates the `sha256Hash` parameter in GraphQL API requests whenever the `query` field is modified. It’s designed for APIs that use persisted queries (like Apollo Persisted Queries) and require a SHA-256 hash of the full query string.
 
-🚀 Key Features
+---
 
-Automatic hash calculation: Seamlessly recalculates the sha256Hash whenever the query field is modified in the request.
+## 🚀 Key Features
 
-Works across Burp tools: Supports Proxy, Repeater, and Scanner for full testing coverage.
+- **Automatic hash update:** Instantly recalculates the `sha256Hash` when you edit/tamper with a query in Burp Suite.
+- **Works across Burp tools:** Supports Proxy, Repeater, and Scanner.
+- **No manual work:** Just modify the query—hashing happens behind the scenes.
+- **Domain filtering:** Only activates for specified target hosts.
+- **Verbose logging:** Prints old/new hash and the query in the Burp Extender Output tab for full transparency.
 
-No manual steps needed: Edit your query as needed—hashes are updated on the fly before each request is sent.
+---
 
-Domain filtering: Only operates for specified target hosts, ensuring minimal interference with unrelated traffic.
+## 🧠 How It Works
 
-Verbose logging: Outputs original and updated hash values, and the associated query, to the Burp Extender Output tab for full transparency and debugging.
+1. **Intercepts HTTP requests** with content-type `application/json`.
+2. **Checks for `query` and `sha256Hash` fields** in the JSON body.
+3. **Calculates the SHA-256 hash** of the exact `query` string (whitespace-sensitive).
+4. **Updates the `sha256Hash`** field if the query changed.
+5. **Logs all changes** (including hashes and query) to the Output tab.
 
-🧠 How It Works
+---
 
-Intercepts outgoing HTTP requests with content-type application/json.
+## 🔒 Why Use This Extension?
 
-Checks for the presence of both query and sha256Hash fields in the JSON body.
-
-Calculates the SHA-256 hash of the exact query string (including whitespace/formatting).
-
-Updates the sha256Hash field with the new value if the query was changed.
-
-Logs details (old/new hash, query, etc.) to the Output tab.
-
-🔒 Why Use This Extension?
-
-Persisted queries in GraphQL APIs require the hash to match the exact query being sent. During security testing, you often need to tamper with queries, but recalculating hashes manually is tedious and error-prone. This extension ensures your modified requests are always correctly signed, allowing for efficient and thorough security assessments.
+Modern GraphQL APIs often reject requests if the `sha256Hash` doesn't exactly match the query. This extension automates the process, so you can freely test, tamper, and replay queries without manually recalculating the hash each time.
