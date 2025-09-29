@@ -6,7 +6,7 @@ import json
 import hashlib
 
 EXT_NAME = "GraphQL sha256Hash Auto-Updater"
-TARGET_HOST = "pentest.api.marketplace.demo.inato.com"
+TARGET_HOST = "domain.com"
 MAX_QUERY_LEN = 800  # For logging
 
 def _maybe_truncate(s, limit=MAX_QUERY_LEN):
